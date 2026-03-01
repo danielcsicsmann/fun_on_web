@@ -1,39 +1,36 @@
-const gomb = document.getElementById('gomb');
-const cim = document.getElementById('cim');
+// 1. Elemek kijelölése a HTML-ből
+const inditoGomb = document.getElementById('gomb');
+const cimsor = document.getElementById('cim');
+const valasztoMenu = document.getElementById('funkcio-valaszto');
+const kockaMegjelenito = document.getElementById('kocka-helye');
 
-gomb.addEventListener('click', () => {
-    // Generálunk egy véletlen színt
-    const randomSzin = '#' + Math.floor(Math.random()*16777215).toString(16);
+// 2. A fő funkció, ami a gombnyomásra indul
+inditoGomb.addEventListener('click', () => {
     
-    cim.innerText = "Bumm! Megváltozott a szín! ✨";
-    document.body.style.backgroundColor = randomSzin;
-});
+    // Megnézzük, éppen mi van kiválasztva a menüben
+    const aktualisValasztas = valasztoMenu.value;
 
-const gomb = document.getElementById('gomb');
-const cim = document.getElementById('cim');
-const valaszto = document.getElementById('funkcio-valaszto');
-const kockaHelye = document.getElementById('kocka-helye');
-
-gomb.addEventListener('click', () => {
-    const kivalasztottFunkcio = valaszto.value;
-
-    if (kivalasztottFunkcio === 'szin') {
-        // --- Háttérszín funkció ---
-        const randomSzin = '#' + Math.floor(Math.random()*16777215).toString(16);
-        document.body.style.backgroundColor = randomSzin;
-        cim.innerText = "Szín megváltoztatva! 🎨";
-        kockaHelye.innerText = ""; // Töröljük a kockát, ha volt
+    if (aktualisValasztas === 'szin') {
+        // --- HÁTTÉRSZÍN VÁLTOZTATÁSA ---
+        const hexSzamok = '0123456789ABCDEF';
+        let szin = '#';
+        for (let i = 0; i < 6; i++) {
+            szin += hexSzamok[Math.floor(Math.random() * 16)];
+        }
+        
+        document.body.style.backgroundColor = szin;
+        cimsor.innerText = `Új szín: ${szin} 🎨`;
+        kockaMegjelenito.innerText = ""; // Eltüntetjük a kockát, ha ott volt
     } 
-    else if (kivalasztottFunkcio === 'kocka') {
-        // --- Dobókocka funkció ---
+    else if (aktualisValasztas === 'kocka') {
+        // --- DOBÓKOCKA JÁTÉK ---
         const dobas = Math.floor(Math.random() * 6) + 1;
-        cim.innerText = `Dobás eredménye: ${dobas}`;
+        const kockaEmoji = ["", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
         
-        // Emoji kockák használata a látvány kedvéért
-        const kockak = ["", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-        kockaHelye.innerText = kockak[dobas];
+        cimsor.innerText = "Dobás eredménye:";
+        kockaMegjelenito.innerText = kockaEmoji[dobas];
         
-        // Visszaállítjuk a hátteret valami fixre, hogy látszódjon a kocka
+        // Visszaállítjuk a hátteret semlegesre, hogy látszódjon a kocka
         document.body.style.backgroundColor = "#1a1a1a";
     }
 });
